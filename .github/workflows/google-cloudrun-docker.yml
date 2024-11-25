@@ -22,13 +22,17 @@ jobs:
       - name: Set up Cloud SDK
         uses: 'google-github-actions/setup-gcloud@v2'
 
+      - name: Configure Docker
+        run: |
+          gcloud auth configure-docker asia-southeast2-docker.pkg.dev
+
       - name: 'Create env file'
         run: |
           echo PORT=8000 >> .env
 
       - name: 'Build and Push Container'
         run: |-
-          DOCKER_TAG="gcr.io/capstone-bangkit-441506/nimbus-dev:latest"
+          DOCKER_TAG="asia-southeast2-docker.pkg.dev/capstone-bangkit-441506/nimbus-dev/nimbus-dev:0.0.444"
           docker build --tag "${DOCKER_TAG}" .
           docker push "${DOCKER_TAG}"
       
