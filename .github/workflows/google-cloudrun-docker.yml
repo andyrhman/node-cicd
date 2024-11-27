@@ -13,8 +13,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Create service account file
-        run: |
-          echo "${{ secrets.GCP_SA_KEY }}" > ./src/serviceAccount.json
-          cat ./src/serviceAccount.json
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
+      - name: Create service account file
+        run: node ./createServiceAccount.js
+        env:
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Validate JSON
+        run: |
+          jq . ./src/test.json
