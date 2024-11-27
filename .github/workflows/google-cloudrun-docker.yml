@@ -26,3 +26,4 @@ jobs:
       - name: Validate JSON
         run: |
           jq . ./src/test.json
+          cat ./src/test.json
