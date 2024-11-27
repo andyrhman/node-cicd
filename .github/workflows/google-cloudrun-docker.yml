@@ -26,3 +26,12 @@ jobs:
       - name: Validate JSON
         run: |
           jq . ./src/test.json
+
+      - name: Build Docker images and push to Docker Hub
+        run: |
+          docker build -t ${{ secrets.DOCKER_ID }}/test123 .
+          echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+          docker push ${{ secrets.DOCKER_ID }}/test123
+        env:
+          DOCKER_ID: ${{ secrets.DOCKER_ID }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
