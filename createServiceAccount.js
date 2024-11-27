@@ -16,8 +16,28 @@ const createServiceAccountFile = () => {
         console.log(`Service account file created successfully at: ${path}`);
     } catch (error) {
         console.error(`Error creating service account file: ${error.message}`);
-        process.exit(1); 
+        process.exit(1);
+    }
+};
+
+const logServiceAccount = () => {
+    const path = './src/test.json';
+
+    try {
+        const jsonContent = JSON.parse(fs.readFileSync(path, 'utf8'));
+
+        // Remove sensitive data
+        delete jsonContent.private_key;
+
+        console.log('Sanitized JSON Content:');
+        console.log(JSON.stringify(jsonContent, null, 2));
+    } catch (error) {
+        console.error(`Failed to log JSON content: ${error.message}`);
+        process.exit(1);
     }
 };
 
 createServiceAccountFile();
+logServiceAccount();
+
+
